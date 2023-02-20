@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Feedly Opener
 // @namespace    https://www.jonathansharman.com/
-// @version      0.4
-// @description  On enter press, opens the first item in a feed, marks it read, and hides it. Hold Ctrl to open three items at once.
+// @version      0.5
+// @description  On enter press, opens the first feed item and hides its card.
 // @author       Jonathan Sharman
 // @match        https://feedly.com/i/collection/content/user/*
 // @grant        none
@@ -10,17 +10,20 @@
 
 "use strict";
 
-document.addEventListener("keyup", function(event) {
+document.addEventListener("keyup", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        const entries = document.getElementsByClassName("entry");
-        let n = Math.min(entries.length, event.ctrlKey ? 3 : 1);
-        for (let i = 0; i < n; ++i) {
-            const url = entries[i].getElementsByTagName("a")[0].href;
-            window.open(url, "_blank");
-        }
-        for (let i = n - 1; i >= 0; --i) {
-            entries[i].getElementsByClassName("EntryHideButton")[0].click();
-        }
+        const entry = document.querySelector(".entry");
+        const link = entry.querySelector("a");
+        window.open(link.href, "_blank");
+        link.click();
+        setTimeout(function () {
+            for (let div of document.querySelectorAll("div")) {
+                if (div.innerText == "hide") {
+                    div.click()
+                    break;
+                }
+            }
+        });
     }
 });

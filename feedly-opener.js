@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Feedly Opener
 // @namespace    https://www.jonathansharman.com/
-// @version      0.5
+// @version      0.6
 // @description  On enter press, opens the first feed item and hides its card.
 // @author       Jonathan Sharman
 // @match        https://feedly.com/i/collection/content/user/*
@@ -18,12 +18,10 @@ document.addEventListener("keyup", function (event) {
         window.open(link.href, "_blank");
         link.click();
         setTimeout(function () {
-            for (let div of document.querySelectorAll("div")) {
-                if (div.innerText == "hide") {
-                    div.click()
-                    break;
-                }
-            }
+            document.querySelector('.SliderCloseTab button').click();
+            setTimeout(function () {
+                document.querySelector('.EntryRemoveButton').click();
+            });
         });
     }
 });

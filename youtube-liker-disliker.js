@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YouTube Liker/Disliker
 // @namespace    https://www.jonathansharman.com/
-// @version      0.1
+// @version      0.2
 // @description  Like with '[', dislike with ']'.
 // @author       Jonathan Sharman
 // @match        https://www.youtube.com/*
@@ -13,11 +13,9 @@
 document.addEventListener("keyup", function (event) {
     if (event.key === "[") {
         event.preventDefault();
-        let button = document.querySelector("button[title='I like this']")
-            ?? document.querySelector("button[title='Unlike']");
-        button.click()
+        document.querySelector("like-button-view-model button").click()
     } else if (event.key === "]") {
         event.preventDefault();
-        document.querySelector("button[title='I dislike this']").click()
+        document.querySelector("dislike-button-view-model button").click()
     }
 });
